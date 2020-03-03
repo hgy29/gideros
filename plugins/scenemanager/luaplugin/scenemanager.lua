@@ -324,7 +324,7 @@ end
 
 function SceneManager:onTransitionEnd()
 	if self.eventFilter then
-			for i,event in ipairs(self.eventFilter) do
+		for i,event in ipairs(self.eventFilter) do
 			self.transitionEventCatcher:removeEventListener(event, self.filterTransitionEvents, self)
 		end
 		self.transitionEventCatcher:removeFromParent()

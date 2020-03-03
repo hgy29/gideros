@@ -47,7 +47,7 @@ easings = {
 local sin,cos=math.sin,math.cos
 local pii=3.14159265358979324
 local backS = 1.70158
-easing = {};
+easing = {}
 easing.inBack = function(ratio)
 	return ratio*ratio*((backS+1)*ratio-backS)
 end
@@ -127,7 +127,7 @@ easing.inElastic = function(ratio)
 		return ratio
 	end
 	ratio-=1
-	return -(elasticA * 2^(10 * ratio) * sin((ratio - elasticS) * (2 * pii) / elasticP));
+	return -(elasticA * 2^(10 * ratio) * sin((ratio - elasticS) * (2 * pii) / elasticP))
 end
 easing.outElastic = function(ratio)
 	if ratio == 0 or ratio == 1 then
@@ -141,7 +141,7 @@ easing.inOutElastic = function(ratio)
 	end
 	ratio = ratio*2-1
 	if ratio < 0 then
-		return -0.5 * (elasticA * 2^(10 * ratio) * sin((ratio - elasticS*1.5) * (2 * pii) /(elasticP*1.5)));
+		return -0.5 * (elasticA * 2^(10 * ratio) * sin((ratio - elasticS*1.5) * (2 * pii) /(elasticP*1.5)))
 	end
 	return 0.5 * elasticA * 2^(-10 * ratio) * sin((ratio - elasticS*1.5) * (2 * pii) / (elasticP*1.5)) + 1
 end

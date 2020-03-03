@@ -10,7 +10,7 @@ Slight change to use new gideros operators
 v1.0.4 - 08.04.2012
 Added option to filter a list of events during transitions
 Moved increment of time to end of onEnterFrame so that time goes from 0 to 1
-Added additional "real time" argument to dispatched transitions 
+Added additional "real time" argument to dispatched transitions
 Added option to pass user data to a scene when it gets created
 
 v1.0.3 - 19.11.2011
@@ -26,21 +26,39 @@ v1.0 - 06.11.2011
 Initial release
 
 This code is MIT licensed, see http://www.opensource.org/licenses/mit-license.php
-(C) 2010 - 2011 Gideros Mobile 
+(C) 2010 - 2011 Gideros Mobile
 ]]
 
---transitions = {
---	SceneManager.fade,
---	SceneManager.crossFade,
---	SceneManager.flip,
---	SceneManager.flipWithFade,
---	SceneManager.flipWithShade,
---}
+--[[
+transitions = {
+	SceneManager.moveFromRight, -- 1
+	SceneManager.moveFromLeft, -- 2
+	SceneManager.moveFromBottom, -- 3
+	SceneManager.moveFromTop, -- 4
+	SceneManager.moveFromRightWithFade, -- 5
+	SceneManager.moveFromLeftWithFade, -- 6
+	SceneManager.moveFromBottomWithFade, -- 7
+	SceneManager.moveFromTopWithFade, -- 8
+	SceneManager.overFromRight, -- 9
+	SceneManager.overFromLeft, -- 10
+	SceneManager.overFromBottom, -- 11
+	SceneManager.overFromTop, -- 12
+	SceneManager.overFromRightWithFade, -- 13
+	SceneManager.overFromLeftWithFade, -- 14
+	SceneManager.overFromBottomWithFade, -- 15
+	SceneManager.overFromTopWithFade, -- 16
+	SceneManager.fade, -- 17
+	SceneManager.crossFade, -- 18
+	SceneManager.flip, -- 19
+	SceneManager.flipWithFade, -- 20
+	SceneManager.flipWithShade, -- 21
+}
+]]
 SceneManager = Core.class(Sprite)
 
 function SceneManager.moveFromRight(scene1, scene2, t)
 	local width = application:getContentWidth()
-	
+
 	scene1:setX(-t * width)
 	scene2:setX((1 - t) * width)
 end
@@ -54,7 +72,7 @@ end
 
 function SceneManager.moveFromBottom(scene1, scene2, t)
 	local height = application:getContentHeight()
-	
+
 	scene1:setY(-t * height)
 	scene2:setY((1 - t) * height)
 end
@@ -68,7 +86,7 @@ end
 
 function SceneManager.moveFromRightWithFade(scene1, scene2, t)
 	local width = application:getContentWidth()
-	
+
 	scene1:setAlpha(1 - t)
 	scene1:setX(-t * width)
 	scene2:setX((1 - t) * width)
@@ -84,7 +102,7 @@ end
 
 function SceneManager.moveFromBottomWithFade(scene1, scene2, t)
 	local height = application:getContentHeight()
-	
+
 	scene1:setAlpha(1 - t)
 	scene1:setY(-t * height)
 	scene2:setY((1 - t) * height)
@@ -112,7 +130,7 @@ end
 
 function SceneManager.overFromBottom(scene1, scene2, t)
 	local height = application:getContentHeight()
-	
+
 	scene2:setY((1 - t) * height)
 end
 
@@ -138,7 +156,7 @@ end
 
 function SceneManager.overFromBottomWithFade(scene1, scene2, t)
 	local height = application:getContentHeight()
-	
+
 	scene1:setAlpha(1 - t)
 	scene2:setY((1 - t) * height)
 end
@@ -164,7 +182,7 @@ function SceneManager.fade(scene1, scene2, t)
 	end
 end
 
-function SceneManager.crossfade(scene1, scene2, t)
+function SceneManager.crossFade(scene1, scene2, t)
 	scene1:setAlpha(1 - t)
 	scene2:setAlpha(t)
 end
@@ -262,11 +280,11 @@ end
 
 function SceneManager:changeScene(scene, duration, transition, ease, options)
 	self.eventFilter = options and options.eventFilter
-	
+
 	if self.tweening then
 		return false
 	end
-	
+
 	if self.scene1 == nil then
 		self.scene1 = self.scenes[scene].new(options and options.userData)
 		self:addChild(self.scene1)
@@ -284,7 +302,7 @@ function SceneManager:changeScene(scene, duration, transition, ease, options)
 	self.scene2 = self.scenes[scene].new(options and options.userData)
 	self.scene2:setVisible(false)
 	self:addChild(self.scene2)
-		
+
 	self.time = 0
 	self.currentTimer = os.timer()
 	self.tweening = true
@@ -306,7 +324,7 @@ end
 
 function SceneManager:onTransitionEnd()
 	if self.eventFilter then
-        	for i,event in ipairs(self.eventFilter) do
+			for i,event in ipairs(self.eventFilter) do
 			self.transitionEventCatcher:removeEventListener(event, self.filterTransitionEvents, self)
 		end
 		self.transitionEventCatcher:removeFromParent()
@@ -325,7 +343,7 @@ function SceneManager:onEnterFrame(event)
 		dispatchEvent(self.scene1, "exitBegin")
 		dispatchEvent(self.scene2, "enterBegin")
 	end
-		
+
 	local timer = os.timer()
 	local deltaTime = timer - self.currentTimer
 	self.currentTimer = timer
@@ -352,7 +370,7 @@ function SceneManager:onEnterFrame(event)
 	end
 
 	self.time += deltaTime
-	
+
 	if self.time > self.duration then
 		self.time = self.duration
 	end

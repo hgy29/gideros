@@ -5,9 +5,45 @@ Licensed under the MIT license.
 
 Easing functions adapted from Robert Penner's AS3 tweening equations.
 
+*21.12.2019 Modified to use local sin, cos, and pi
 *09.12.2018 Modified by @Apollo14: replaced vanilla math functions with faster Gideros ^ operators
-*21.12.2019 Modified to use local sin, cos, and pi ]]
+]]
 
+--[[
+easings = {
+	easing.inBack, -- 1
+	easing.outBack, -- 2
+	easing.inOutBack, -- 3
+	easing.inBounce, -- 4
+	easing.outBounce, -- 5
+	easing.inOutBounce, -- 6
+	easing.inCircular, -- 7
+	easing.outCircular, -- 8
+	easing.inOutCircular, -- 9
+	easing.inCubic, -- 10
+	easing.outCubic, -- 11
+	easing.inOutCubic, -- 12
+	easing.inElastic, -- 13
+	easing.outElastic, -- 14
+	easing.inOutElastic, -- 15
+	easing.inExponential, -- 16
+	easing.outExponential, -- 17
+	easing.inOutExponential, -- 18
+	easing.linear, -- 19
+	easing.inQuadratic, -- 20
+	easing.outQuadratic, -- 21
+	easing.inOutQuadratic, -- 22
+	easing.inQuartic, -- 23
+	easing.outQuartic, -- 24
+	easing.inOutQuartic, -- 25
+	easing.inQuintic, -- 26
+	easing.outQuintic, -- 27
+	easing.inOutQuintic, -- 28
+	easing.inSine, -- 29
+	easing.outSine, -- 30
+	easing.inOutSine, -- 31
+}
+]]
 local sin,cos=math.sin,math.cos
 local pii=3.14159265358979324
 local backS = 1.70158
@@ -23,7 +59,7 @@ easing.inOutBack = function(ratio)
 	ratio*=2
 	if ratio < 1 then
 		return 0.5*(ratio*ratio*((backS*1.525+1)*ratio-backS*1.525))
-	else 
+	else
 		ratio-=2
 		return 0.5*(ratio*ratio*((backS*1.525+1)*ratio+backS*1.525)+2)
 	end
@@ -47,7 +83,7 @@ easing.outBounce = function(ratio)
 end
 easing.inOutBounce = function(ratio)
 	ratio*=2
-	if ratio < 1 then 
+	if ratio < 1 then
 		return 0.5*easing.inBounce(ratio,0,0,0)
 	else
 		return 0.5*easing.outBounce(ratio-1,0,0,0)+0.5
@@ -83,9 +119,9 @@ easing.inOutCubic = function(ratio)
 		return 4*ratio*ratio*ratio+1
 	end
 end
-local elasticA = 1;
-local elasticP = 0.3;
-local elasticS = elasticP/4;
+local elasticA = 1
+local elasticP = 0.3
+local elasticS = elasticP/4
 easing.inElastic = function(ratio)
 	if ratio == 0 or ratio == 1 then
 		return ratio
@@ -97,7 +133,7 @@ easing.outElastic = function(ratio)
 	if ratio == 0 or ratio == 1 then
 		return ratio
 	end
-	return elasticA * 2^(-10 * ratio) *  sin((ratio - elasticS) * (2 * pii) / elasticP) + 1;
+	return elasticA * 2^(-10 * ratio) *  sin((ratio - elasticS) * (2 * pii) / elasticP) + 1
 end
 easing.inOutElastic = function(ratio)
 	if ratio == 0 or ratio == 1 then
@@ -107,7 +143,7 @@ easing.inOutElastic = function(ratio)
 	if ratio < 0 then
 		return -0.5 * (elasticA * 2^(10 * ratio) * sin((ratio - elasticS*1.5) * (2 * pii) /(elasticP*1.5)));
 	end
-	return 0.5 * elasticA * 2^(-10 * ratio) * sin((ratio - elasticS*1.5) * (2 * pii) / (elasticP*1.5)) + 1;
+	return 0.5 * elasticA * 2^(-10 * ratio) * sin((ratio - elasticS*1.5) * (2 * pii) / (elasticP*1.5)) + 1
 end
 easing.inExponential = function(ratio)
 	if ratio == 0 then
@@ -122,7 +158,7 @@ easing.outExponential = function(ratio)
 	return 1-2^(-10 * ratio)
 end
 easing.inOutExponential = function(ratio)
-	if ratio == 0 or ratio == 1 then 
+	if ratio == 0 or ratio == 1 then
 		return ratio
 	end
 	ratio = ratio*2-1
